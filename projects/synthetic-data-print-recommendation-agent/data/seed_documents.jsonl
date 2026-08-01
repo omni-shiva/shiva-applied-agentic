@@ -1,0 +1,12 @@
+{"document_id":"seed_invoice_a4_standard","category":"invoice","text_ratio":0.88,"image_ratio":0.12,"color_ratio":0.06,"page_size":"A4","page_count":3,"quality_priority":"standard"}
+{"document_id":"seed_invoice_letter_economy","category":"invoice","text_ratio":0.92,"image_ratio":0.08,"color_ratio":0.02,"page_size":"Letter","page_count":12,"quality_priority":"economy"}
+{"document_id":"seed_invoice_a4_premium","category":"invoice","text_ratio":0.80,"image_ratio":0.20,"color_ratio":0.10,"page_size":"A4","page_count":8,"quality_priority":"premium"}
+{"document_id":"seed_report_a4_standard_long","category":"report","text_ratio":0.72,"image_ratio":0.28,"color_ratio":0.16,"page_size":"A4","page_count":24,"quality_priority":"standard"}
+{"document_id":"seed_report_letter_economy","category":"report","text_ratio":0.80,"image_ratio":0.20,"color_ratio":0.08,"page_size":"Letter","page_count":35,"quality_priority":"economy"}
+{"document_id":"seed_report_a3_premium","category":"report","text_ratio":0.65,"image_ratio":0.35,"color_ratio":0.33,"page_size":"A3","page_count":10,"quality_priority":"premium"}
+{"document_id":"seed_brochure_a4_premium","category":"brochure","text_ratio":0.28,"image_ratio":0.72,"color_ratio":0.85,"page_size":"A4","page_count":6,"quality_priority":"premium"}
+{"document_id":"seed_brochure_letter_standard","category":"brochure","text_ratio":0.40,"image_ratio":0.60,"color_ratio":0.70,"page_size":"Letter","page_count":4,"quality_priority":"standard"}
+{"document_id":"seed_photo_a4_premium","category":"photo","text_ratio":0.03,"image_ratio":0.97,"color_ratio":0.98,"page_size":"A4","page_count":1,"quality_priority":"premium"}
+{"document_id":"seed_presentation_a4_standard","category":"presentation","text_ratio":0.40,"image_ratio":0.60,"color_ratio":0.65,"page_size":"A4","page_count":15,"quality_priority":"standard"}
+{"document_id":"seed_presentation_letter_economy","category":"presentation","text_ratio":0.50,"image_ratio":0.50,"color_ratio":0.55,"page_size":"Letter","page_count":22,"quality_priority":"economy"}
+{"document_id":"seed_report_a4_standard_short","category":"report","text_ratio":0.75,"image_ratio":0.25,"color_ratio":0.12,"page_size":"A4","page_count":6,"quality_priority":"standard"}
