@@ -1,0 +1,9 @@
+{
+  "tenant_id": "tenant_alpha",
+  "pipeline_id": "orders_daily",
+  "contract_version": "3.2.0",
+  "grain": "one row per order_id",
+  "expected_columns": ["order_id", "customer_id", "customer_segment", "order_total", "order_date"],
+  "last_observed_columns": ["order_id", "customer_id", "segment", "order_total", "order_date"],
+  "quality_rules": ["order_id is unique", "order_total is non-negative", "order_date is not null"]
+}

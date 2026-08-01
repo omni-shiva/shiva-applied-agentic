@@ -1,0 +1,12 @@
+[
+  {"id":"rb-schema-drift","title":"Schema drift and contract mismatch","file":"schema-drift.md","tags":["schema","contract","ddl","missing column"]},
+  {"id":"rb-upstream-delay","title":"Upstream readiness and late arrival","file":"upstream-delay.md","tags":["upstream","delay","readiness","retry"]},
+  {"id":"rb-duplicate-keys","title":"Duplicate keys and join explosion","file":"duplicate-keys.md","tags":["duplicate","join","cardinality","quality"]},
+  {"id":"rb-auth-expiry","title":"Expired workload credentials","file":"auth-expiry.md","tags":["authentication","secret","credential","expiry"]},
+  {"id":"rb-sla-breach","title":"SLA breach and Spark performance triage","file":"sla-breach.md","tags":["sla","spark","shuffle","skew","performance"]},
+  {"id":"rb-output-drop","title":"Unexpected output-volume drop","file":"output-drop.md","tags":["record loss","filter","join","output","critical"]},
+  {"id":"rb-logging-gap","title":"Missing diagnostic and correlation logs","file":"logging-gap.md","tags":["logging","observability","correlation","migration"]},
+  {"id":"rb-safe-backfill","title":"Idempotent backfill safety checklist","file":"safe-backfill.md","tags":["backfill","idempotency","approval","rollback"]},
+  {"id":"rb-tenant-boundary","title":"Tenant isolation for diagnostic tools","file":"tenant-boundary.md","tags":["tenant","security","authorization","filter"]},
+  {"id":"rb-evaluation","title":"Evaluation and regression gates","file":"evaluation-gates.md","tags":["evaluation","regression","groundedness","human approval"]}
+]

@@ -1,0 +1,15 @@
+services:
+  reliability-agent:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      AGENT_MODE: ${AGENT_MODE:-offline}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.6-sol}
+      MAX_TOOL_STEPS: ${MAX_TOOL_STEPS:-4}
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true

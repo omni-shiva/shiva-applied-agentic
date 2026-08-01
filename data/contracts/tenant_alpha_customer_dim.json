@@ -1,0 +1,9 @@
+{
+  "tenant_id": "tenant_alpha",
+  "pipeline_id": "customer_dim",
+  "contract_version": "2.1.0",
+  "grain": "one current row per customer_id",
+  "expected_columns": ["customer_id", "customer_segment", "effective_at", "is_current"],
+  "last_observed_columns": ["customer_id", "customer_segment", "effective_at", "is_current"],
+  "quality_rules": ["customer_id is unique where is_current is true", "effective_at is not null"]
+}

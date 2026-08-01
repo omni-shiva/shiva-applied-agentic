@@ -1,0 +1,9 @@
+{
+  "tenant_id": "tenant_beta",
+  "pipeline_id": "quality_rollup",
+  "contract_version": "1.4.0",
+  "grain": "one row per rule_id and processing_date",
+  "expected_columns": ["rule_id", "processing_date", "records_checked", "records_failed", "failure_rate"],
+  "last_observed_columns": ["rule_id", "processing_date", "records_checked", "records_failed", "failure_rate"],
+  "quality_rules": ["records_checked is positive", "failure_rate is between zero and one"]
+}
