@@ -25,8 +25,8 @@ def run_evaluation(settings: Settings | None = None) -> EvaluationSummary:
     holdout_cases = load_holdout_cases(config.holdout_path)
     seed_ids = {document.document_id for document in seed_documents}
     holdout_ids = {case.document.document_id for case in holdout_cases}
-    independent = seed_ids.isdisjoint(holdout_ids)
-    if not independent:
+    ids_are_disjoint = seed_ids.isdisjoint(holdout_ids)
+    if not ids_are_disjoint:
         raise ValueError("holdout document IDs must not overlap the seed corpus")
 
     generator = SyntheticCorpusGenerator(config.random_seed)
@@ -92,7 +92,8 @@ def run_evaluation(settings: Settings | None = None) -> EvaluationSummary:
     )
 
     findings = [
-        "The holdout IDs are isolated from seed and generated training IDs.",
+        "The holdout IDs are isolated from seed and generated training IDs; expected settings "
+        "remain within the same documented synthetic policy world.",
         f"The strongest field accuracy is {best.field_accuracy:.3f} at {best.scale}x scale.",
     ]
     if saturation:
@@ -108,7 +109,7 @@ def run_evaluation(settings: Settings | None = None) -> EvaluationSummary:
         scales=metrics,
         best_scale=best.scale,
         saturation_detected=saturation,
-        holdout_is_independent=independent,
+        holdout_ids_are_disjoint=ids_are_disjoint,
         passes_quality_gate=quality_gate,
         findings=findings,
     )

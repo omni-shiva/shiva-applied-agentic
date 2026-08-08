@@ -5,10 +5,11 @@
 I built an independent synthetic-data and print-recommendation agent around a data-scarcity
 problem. The system first measures missing document segments, then generates controlled variations
 at 1x, 10x and 100x scale and engineers transparent document characteristics. A local bounded agent
-recommends print settings with confidence, evidence IDs and a human-review gate. The most important
-part is the evaluation boundary: the generator never sees the independent holdout IDs or labels, and
+recommends print settings with confidence, evidence IDs and a review-required flag. The most important
+part is the evaluation boundary: generator and fitting never see the disjoint holdout IDs or labels, and
 I measure coverage, diversity, duplicates, exact accuracy, rare-group performance and saturation.
-The service returns recommendation JSON but cannot execute printing.
+Expected settings remain inside the same documented synthetic policy world. The service returns
+recommendation JSON and a review-required flag but cannot execute printing or manage a review queue.
 
 ## Why this is agentic
 
@@ -22,7 +23,7 @@ autonomous than an open-ended agent because the domain has explicit settings and
 
 It may repeat the same feature patterns, amplify the generator's assumptions, distort the real
 distribution or reinforce incorrect synthetic labels. Volume must be assessed with diversity and
-independent holdout metrics.
+synthetic holdout metrics, while disclosing that expected labels use the same policy assumptions.
 
 ### How do you prevent leakage?
 
@@ -31,9 +32,10 @@ never by generation or fitting, and code raises an error if seed and holdout IDs
 
 ### Is the holdout truly real?
 
-No. In this public portfolio it is a separately authored synthetic holdout. It demonstrates the
-evaluation design, not real-world model validity. Production needs domain-expert labels and actual
-print-quality outcomes.
+No. It is a separately versioned synthetic holdout with disjoint IDs, and its expected settings align
+with the same documented synthetic policy assumptions. It demonstrates ID isolation, scale comparison
+and saturation—not label independence or real-world validity. Production needs domain-expert labels
+and actual print-quality outcomes.
 
 ### Why not use an LLM?
 
@@ -43,8 +45,9 @@ schemas, evaluation and human review.
 
 ### Where is human validation?
 
-The code implements the review boundary and review queue conditions. No real human validation is
-claimed. Actual domain experts would approve or correct labels before production training.
+The code returns a review-required flag for boundary conditions; it does not implement a queue or
+approval workflow. No real human validation is claimed. Actual domain experts would approve or
+correct labels before production training.
 
 ## Three failure cases
 

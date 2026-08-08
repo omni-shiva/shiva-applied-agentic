@@ -14,7 +14,7 @@
 A fixed workflow would be simpler if every incident needed identical evidence. An agent is useful
 here because schema incidents require contract inspection, while SLA or credential incidents may
 need only run history and runbooks. The planner therefore has conditional choice, but the tool set,
-tenant boundary and maximum steps remain deterministic application controls.
+tenant boundary and maximum model-response rounds remain deterministic application controls.
 
 The offline planner makes the repository reproducible. The optional OpenAI planner demonstrates
 dynamic function selection without changing the tool or safety contracts.
@@ -43,10 +43,10 @@ tenant field by itself.
 
 | Failure | Control |
 |---|---|
-| Incorrect tool arguments | Strict JSON schemas plus application validation |
+| Incorrect tool arguments | Strict provider schemas; application tenant check; fuller field validation is future work |
 | Cross-tenant request | Authorized-context comparison and tenant-scoped SQL |
 | Prompt injection in a runbook | Runbook text is reference data, not instructions |
-| Excessive tool looping | Configurable maximum tool steps |
+| Excessive planner looping | Configurable maximum model-response rounds; one round may return multiple calls |
 | LLM or API failure | Deterministic offline fallback |
 | Unsupported remediation | Preview-only endpoint and mandatory human approval |
 | Hallucinated diagnosis | Direct event/contract evidence and runbook citations |

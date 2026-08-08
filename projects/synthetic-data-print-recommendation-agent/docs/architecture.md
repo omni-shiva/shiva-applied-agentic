@@ -10,7 +10,8 @@
 5. Apply a documented policy to create experimental synthetic labels.
 6. Mark ambiguous policy-boundary labels for human review.
 7. Fit a distance-weighted local recommendation agent.
-8. Evaluate on a separately versioned holdout set that is never used for generation or fitting.
+8. Evaluate on a separately versioned synthetic holdout with disjoint IDs. Expected settings use
+   the same documented synthetic policy assumptions.
 
 ## Online recommendation flow
 
@@ -27,18 +28,18 @@
 The project is about data scarcity and evaluation, not model scale. A transparent local model keeps
 results deterministic, allows exact regression tests and makes the effect of synthetic volume easy
 to inspect. A hosted LLM could later help explain recommendations or extract features from real
-documents, but it should not replace structured validation or independent evaluation.
+documents, but it should not replace structured validation or expert-labelled evaluation.
 
 ## Failure controls
 
 | Failure | Control |
 |---|---|
 | Synthetic volume repeats the same patterns | Diversity, duplicate and categorical-coverage metrics |
-| Generator assumptions reinforce labels | Independent holdout labels and explicit synthetic label source |
+| Generator assumptions reinforce labels | Same-policy limitation disclosed; expert labels remain future work |
 | Rare groups are hidden by overall accuracy | Separate rare-group accuracy |
 | Performance stops improving | Direct 1x, 10x and 100x saturation comparison |
 | Unusual input receives false certainty | Distance and confidence review gates |
-| Ambiguous thresholds create brittle labels | Human-review queue for boundary cases |
+| Ambiguous thresholds create brittle labels | Review-required flag for boundary cases; no queue is claimed |
 | Recommendation triggers a real action | No printer integration and `execution_performed=false` |
 
 ## Main trade-offs

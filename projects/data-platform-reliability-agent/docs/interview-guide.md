@@ -4,9 +4,10 @@
 
 I built a synthetic data-platform reliability agent that diagnoses pipeline failures from three
 evidence sources: run events, versioned data contracts and operational runbooks. The agent selects
-read-only tools, validates every argument against tenant scope, retrieves runbooks from Qdrant and
+read-only tools, enforces tenant equality for tool calls, retrieves runbooks from Qdrant and
 returns evidence, citations, confidence and a proposed recovery step. Remediation is never executed;
-human approval is outside the service. A 25-case suite checks tool selection, grounding and safety.
+human approval is outside the service. A 25-case deterministic offline suite checks required trace
+contents, evidence/citation presence and safety; it does not evaluate the optional LLM planner.
 
 ## Two-minute architecture answer
 
@@ -23,8 +24,9 @@ API, tenant-isolation and versioned evaluation checks.
 1. **Cross-tenant tool argument:** the tool registry blocks the call before storage access.
 2. **Prompt injection inside a runbook:** runbook content is treated as evidence, never as executable
    instruction; only application-defined tools exist.
-3. **LLM timeout or malformed tool call:** the live planner is bounded and falls back to the offline
-   deterministic path; strict schemas and Pydantic reject malformed data.
+3. **LLM timeout or malformed tool call:** the live planner has bounded response rounds and falls
+   back to the offline deterministic path. Strict provider schemas reduce malformed arguments;
+   application-level validation currently guarantees tenant equality, not every field.
 
 ## Important trade-off
 
@@ -49,11 +51,12 @@ state-of-the-art semantic retrieval.
 
 Different failures need different evidence. Schema drift needs contract inspection; an SLA breach
 may need events and performance guidance. Conditional tool choice is useful, while the application
-still controls the tool allow-list, tenant scope and maximum steps.
+still controls the tool allow-list, tenant scope and maximum model-response rounds.
 
 ### How is retrieval evaluated separately?
 
-This first version checks expected tool selection and citation presence. The next retrieval-specific
+This first version checks required trace contents and citation presence. Because baseline event and
+runbook lookups are inserted when absent, this is not a pure planner-selection metric. The next retrieval-specific
 layer would add expected source IDs, recall at k, mean reciprocal rank and metadata-filter tests.
 
 ### How do you prevent destructive autonomous actions?
