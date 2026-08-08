@@ -16,8 +16,8 @@ def load_cases(path: Path) -> list[dict[str, object]]:
 def run_evaluation(agent: ReliabilityAgent, path: Path) -> EvaluationSummary:
     cases = load_cases(path)
     passed = 0
-    tool_hits = 0
-    grounded = 0
+    required_tool_traces = 0
+    evidence_present = 0
     approval_hits = 0
     approval_cases = 0
 
@@ -42,8 +42,8 @@ def run_evaluation(agent: ReliabilityAgent, path: Path) -> EvaluationSummary:
             guard_ok = response.approval_required and not response.execution_performed
             approval_hits += int(guard_ok)
 
-        tool_hits += int(tool_ok)
-        grounded += int(evidence_ok)
+        required_tool_traces += int(tool_ok)
+        evidence_present += int(evidence_ok)
         passed += int(tool_ok and error_ok and evidence_ok and guard_ok)
 
     total = len(cases)
@@ -51,8 +51,8 @@ def run_evaluation(agent: ReliabilityAgent, path: Path) -> EvaluationSummary:
         total_cases=total,
         passed_cases=passed,
         pass_rate=round(passed / total, 3) if total else 0.0,
-        tool_selection_accuracy=round(tool_hits / total, 3) if total else 0.0,
-        evidence_grounded_rate=round(grounded / total, 3) if total else 0.0,
+        required_tool_trace_rate=round(required_tool_traces / total, 3) if total else 0.0,
+        evidence_present_rate=round(evidence_present / total, 3) if total else 0.0,
         approval_guard_rate=(round(approval_hits / approval_cases, 3) if approval_cases else 1.0),
     )
 

@@ -68,6 +68,6 @@ class EvaluationSummary(BaseModel):
     total_cases: int
     passed_cases: int
     pass_rate: float
-    tool_selection_accuracy: float
-    evidence_grounded_rate: float
+    required_tool_trace_rate: float
+    evidence_present_rate: float
     approval_guard_rate: float

@@ -5,8 +5,9 @@
 An evaluation-driven project for a practical data-scarcity problem: real labelled documents are
 limited, but a print recommendation system needs diverse document categories, layouts and quality
 requirements. The project generates controlled synthetic variations, engineers document features,
-trains a small local recommender and checks whether 1x, 10x and 100x scaling improves independent
-holdout performance or merely repeats the generator's assumptions.
+trains a small local recommender and compares 1x, 10x and 100x scaling on a separately versioned
+synthetic holdout with disjoint IDs. The expected settings use the same documented synthetic policy
+assumptions, so the results test a controlled synthetic world rather than independent ground truth.
 
 This is an independent portfolio implementation by **Shivanand Kumar**. All document profiles are
 synthetic. The project contains no employer documents, print rules, source code or confidential
@@ -18,8 +19,8 @@ More synthetic rows do not automatically mean more useful information. A generat
 bias, repeat low-diversity patterns, create distribution mismatch or reinforce incorrect labels.
 The central question is:
 
-> Does synthetic scaling add genuinely new document coverage and improve recommendations on a
-> completely separate holdout set, or does performance saturate while volume continues to grow?
+> Does synthetic scaling add new feature coverage and improve recommendations on a separately
+> versioned synthetic holdout, or does performance saturate while volume continues to grow?
 
 ## End-to-end flow
 
@@ -28,16 +29,17 @@ flowchart LR
     S["Limited seed documents"] --> A["Scarcity analyser"]
     A --> G["Controlled corpus generator"]
     G --> F["Document feature engineering"]
-    F --> R["Print recommendation agent"]
-    R --> Q["Human review queue"]
-    Q --> M["Recommendation model"]
-    M --> H["Independent holdout evaluation"]
-    H --> J["Print recommendation JSON"]
+    F --> M["Distance-weighted recommendation model"]
+    M --> H["Synthetic holdout evaluation"]
+    H --> J["Evaluation findings"]
+    M --> R["Print recommendation JSON"]
+    R --> Q["Review-required flag"]
 ```
 
 The code does not pretend that automated labels are human validation. Ambiguous and low-confidence
-cases are explicitly marked for review, and the independent holdout labels remain separate from
-the synthetic generator.
+cases return a review-required flag; there is no implemented queue or approval workflow. Holdout
+IDs remain separate from generation and fitting, but expected settings come from the same documented
+synthetic policy world.
 
 ## What it demonstrates
 
@@ -46,8 +48,8 @@ the synthetic generator.
 - Feature engineering for category, text/image/colour balance, page size, length and quality need.
 - A bounded local recommendation agent with evidence IDs and confidence.
 - Structured print-setting JSON with no print execution.
-- Human-review gates for low confidence, out-of-distribution and threshold-boundary cases.
-- Independent holdout evaluation for exact accuracy, field accuracy and rare-group accuracy.
+- Review-required flags for low confidence, out-of-distribution and threshold-boundary cases.
+- Separately versioned synthetic holdout evaluation with disjoint document IDs.
 - Diversity, duplicate, coverage and saturation checks to expose synthetic-data failure modes.
 - FastAPI endpoints, Pydantic validation, tests, Docker packaging and CI.
 
@@ -96,8 +98,9 @@ pytest
 ruff check .
 ```
 
-The evaluation rebuilds the training corpus independently at 1x, 10x and 100x, then tests each
-version against labelled holdout documents that the generator never sees. Metrics are reported
+The evaluation rebuilds the training corpus separately at 1x, 10x and 100x, then tests each
+version against synthetic holdout documents that generation and fitting never see. Expected
+settings follow the same documented synthetic policy assumptions. Metrics are reported
 separately for volume, feature-space coverage, duplicates, exact recommendation accuracy,
 per-setting accuracy, rare groups and human-review rate.
 
@@ -108,6 +111,7 @@ See [Evaluation design](docs/evaluation.md) and [Architecture and trade-offs](do
 - Inputs are synthetic document metadata, not uploaded PDFs or employer files.
 - Synthetic labels are not described as ground truth or human validation.
 - The holdout set is never used for synthetic generation or model fitting.
+- Holdout IDs are disjoint, but the expected settings are not independent expert labels.
 - Low-confidence or unusual inputs require human review.
 - The service recommends settings but cannot operate a printer.
 - Increasing data volume is not treated as success without diversity and holdout metrics.
@@ -119,8 +123,9 @@ See [Evaluation design](docs/evaluation.md) and [Architecture and trade-offs](do
 > I built a synthetic-data and print-recommendation agent around a data-scarcity problem. It first
 > measures which document segments are missing, creates deterministic controlled variations and
 > engineers document characteristics. A local recommender returns structured print settings with
-> evidence and a human-review gate. The key design choice is evaluation: I compare 1x, 10x and 100x
-> training scales on a separate holdout set and measure diversity, rare-group performance and
+> evidence and a review-required flag. The key design choice is evaluation: I compare 1x, 10x and
+> 100x training scales on a separately versioned synthetic holdout with disjoint IDs and measure
+> diversity, rare-group performance and
 > saturation, so more synthetic volume is not automatically treated as better.
 
 See the [interview guide](docs/interview-guide.md) for likely design questions and honest limits.
@@ -130,7 +135,7 @@ See the [interview guide](docs/interview-guide.md) for likely design questions a
 ```text
 src/       Scarcity analysis, generation, features, model, service, API and evaluation
 data/      Synthetic seed document profiles
-evals/     Independent labelled holdout document profiles
+evals/     Separately versioned synthetic holdout document profiles
 tests/     Generation, recommendation, API, safety and evaluation tests
 docs/      Architecture, evaluation and interview guidance
 ```

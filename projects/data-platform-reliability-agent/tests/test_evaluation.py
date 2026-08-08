@@ -8,6 +8,6 @@ def test_versioned_evaluation_suite_passes() -> None:
 
     assert summary.total_cases == 25
     assert summary.pass_rate == 1.0
-    assert summary.tool_selection_accuracy == 1.0
-    assert summary.evidence_grounded_rate == 1.0
+    assert summary.required_tool_trace_rate == 1.0
+    assert summary.evidence_present_rate == 1.0
     assert summary.approval_guard_rate == 1.0

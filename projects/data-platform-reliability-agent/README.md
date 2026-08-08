@@ -18,12 +18,12 @@ contracts and runbooks. It contains no employer source code, architecture, confi
 ## What it demonstrates
 
 - A FastAPI service with typed request and response contracts.
-- A bounded agent loop with three strict, read-only tools.
+- A bounded planner with three strict, read-only tools.
 - Local Qdrant vector retrieval with deterministic zero-cost embeddings.
 - Tenant-scoped SQL event queries and cross-tenant negative tests.
 - Data-contract comparison for missing and unexpected fields.
 - Evidence, citations, confidence, traceability and a human-approval boundary.
-- A versioned 25-case evaluation suite covering tool selection, grounding and safety.
+- A versioned 25-case deterministic offline regression suite covering required traces, incident signatures and safety.
 - Offline execution by default, with an optional OpenAI Responses API planner.
 - Docker packaging and GitHub Actions validation.
 
@@ -60,8 +60,9 @@ flowchart TD
 
 The default planner is deterministic so anyone can run and evaluate the project without an API
 key. When `AGENT_MODE=openai`, the planner can use the OpenAI Responses API to select the same
-strict tools. The application still validates every tool argument, enforces tenant scope, limits
-tool steps, and performs deterministic final safety checks.
+strict tools. Strict parameter schemas are supplied to the OpenAI planner; the application enforces
+tenant equality for every tool call, bounds model-response rounds and performs deterministic final
+safety checks. The local runtime does not claim complete validation of every model-supplied field.
 
 More detail: [Architecture and trade-offs](docs/architecture.md).
 
@@ -110,15 +111,18 @@ ruff check .
 ```
 
 The current suite contains 25 synthetic cases across schema mismatch, upstream delay, duplicate
-keys, expired credentials, SLA breach, output loss and logging gaps. It evaluates tool selection,
-expected incident signature, evidence grounding, citations and approval guarding separately.
+keys, expired credentials, SLA breach, output loss and logging gaps. It runs the deterministic
+offline planner and checks required trace contents, expected incident signatures, non-empty evidence
+and citations, and approval guarding. It does not evaluate the optional OpenAI planner, LLM quality,
+retrieval correctness or citation faithfulness.
 
 See [Evaluation design](docs/evaluation.md).
 
 ## Optional OpenAI planner
 
-The optional integration uses the OpenAI Responses API, strict function schemas, a bounded tool
-loop and `store=false`. Keep the default offline mode for deterministic evaluation.
+The optional integration uses the OpenAI Responses API, strict function schemas, bounded
+model-response rounds and `store=false`. One model response may contain multiple tool calls, and
+baseline event/runbook lookups may be added afterward. Keep offline mode for deterministic testing.
 
 ```bash
 export AGENT_MODE=openai
@@ -140,7 +144,7 @@ No key is committed, logged or required by CI.
 - The tool registry accepts only three read-only tools.
 - Every tool call must match the authorized tenant context.
 - Model-provided tenant arguments cannot broaden scope.
-- The agent stops after a configurable maximum number of tool steps.
+- The OpenAI planner stops after a configurable number of model-response rounds.
 - Runbook text is treated as untrusted reference content.
 - Diagnosis never executes remediation.
 - The remediation endpoint produces a preview only and always requires human approval.
@@ -155,9 +159,11 @@ Use this concise framing:
 
 > I built an independent data-platform reliability agent that converts pipeline events, versioned
 > contracts and operational runbooks into an evidence-grounded diagnosis. It uses tenant-scoped
-> tools, Qdrant retrieval, strict schemas, a bounded tool loop and deterministic safety checks. It
+> tools, Qdrant retrieval, strict provider schemas, bounded planner rounds and deterministic safety
+> checks. It
 > can recommend a recovery step, but it cannot execute one; human approval remains outside the
-> service. I evaluate tool selection, grounding and approval behavior with versioned cases.
+> service. I use versioned offline regression cases to check required traces, incident signatures,
+> evidence/citation presence and approval behavior; I do not present them as LLM-quality evaluation.
 
 The [interview guide](docs/interview-guide.md) covers the architecture, failure cases and trade-offs
 without implying that this public repository is employer production code.

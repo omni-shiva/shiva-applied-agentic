@@ -3,8 +3,8 @@
 ## Core question
 
 The evaluation does not ask only whether the training dataset became larger. It asks whether
-synthetic scaling increases feature-space coverage and improves recommendations on independent,
-unseen document profiles.
+synthetic scaling increases feature-space coverage and improves recommendations on separately
+versioned synthetic document profiles with disjoint IDs.
 
 ## Isolation boundary
 
@@ -14,7 +14,11 @@ unseen document profiles.
 - The evaluator stops if a holdout ID overlaps the seed corpus.
 - Holdout labels are never used for generation or fitting.
 
-This is code-level isolation, not a claim that the small synthetic holdout represents real users.
+This is ID-level code isolation. The expected settings align with the same documented synthetic
+recommendation policy used to label generated training data, so the suite measures scale and
+saturation inside that synthetic policy world. It does not demonstrate label independence,
+out-of-policy generalization, expert validity or real-user outcomes. The serialized field
+`holdout_ids_are_disjoint` reports only the ID check.
 
 ## Scale comparison
 

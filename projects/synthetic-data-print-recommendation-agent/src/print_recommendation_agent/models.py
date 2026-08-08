@@ -50,7 +50,7 @@ class HoldoutCase(BaseModel):
     document: DocumentProfile
     expected_settings: PrintSettings
     rare_group: bool = False
-    label_source: Literal["independent_holdout"] = "independent_holdout"
+    label_source: Literal["synthetic_policy_holdout"] = "synthetic_policy_holdout"
 
 
 class ScarcityReport(BaseModel):
@@ -100,6 +100,6 @@ class EvaluationSummary(BaseModel):
     scales: list[ScaleMetrics]
     best_scale: Literal[1, 10, 100]
     saturation_detected: bool
-    holdout_is_independent: bool
+    holdout_ids_are_disjoint: bool
     passes_quality_gate: bool
     findings: list[str]

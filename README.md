@@ -17,8 +17,8 @@ not as production ownership.
 
 | Project | Agent and purpose | Main evidence | Status |
 |---|---|---|---|
-| [Data Platform Reliability Agent](projects/data-platform-reliability-agent/) | Investigates synthetic pipeline incidents with tenant-safe tools, contract inspection and runbook retrieval. It proposes remediation but never executes it. | FastAPI, Pydantic, Qdrant, tenant-scoped SQL, citations, approval controls, 25 evaluation cases | Code and evaluation complete |
-| [Synthetic Data and Print Recommendation Agent](projects/synthetic-data-print-recommendation-agent/) | Detects training-data scarcity, generates controlled document variations, engineers document features and recommends print settings with confidence and human-review gates. | Scarcity analysis, 1x/10x/100x synthetic generation, independent holdout evaluation, structured API responses, bias and saturation checks | Code and evaluation complete |
+| [Data Platform Reliability Agent](projects/data-platform-reliability-agent/) | Investigates synthetic pipeline incidents with tenant-safe tools, contract inspection and runbook retrieval. It proposes remediation but never executes it. | FastAPI, Pydantic, Qdrant, tenant-scoped SQL, citations, approval controls, 25 deterministic offline regression cases | Code and evaluation complete |
+| [Synthetic Data and Print Recommendation Agent](projects/synthetic-data-print-recommendation-agent/) | Detects training-data scarcity, generates controlled document variations, engineers document features and recommends print settings with confidence and a review-required flag. | Scarcity analysis, 1x/10x/100x synthetic generation, separately versioned synthetic holdout with disjoint IDs, structured API responses, bias and saturation checks | Code and evaluation complete |
 
 **Current project count: 2.**
 
@@ -35,7 +35,7 @@ projects/
   synthetic-data-print-recommendation-agent/
     src/       Scarcity, generation, features, recommender and API code
     data/      Small synthetic seed corpus
-    evals/     Independent labelled holdout documents
+    evals/     Separately versioned synthetic holdout documents
     tests/     Generation, recommendation, safety and evaluation tests
     docs/      Architecture, evaluation and interview guidance
 .github/workflows/
