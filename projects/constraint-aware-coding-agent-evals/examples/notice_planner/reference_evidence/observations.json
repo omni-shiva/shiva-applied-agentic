@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "run_id": "reference-run-001",
+  "synthetic": true,
+  "events": [
+    {"index": 0, "action": "read", "paths": ["notice_planner/models.py", "notice_planner/policy.py", "notice_planner/planner.py"], "outcome": "completed"},
+    {"index": 1, "action": "edit", "paths": ["notice_planner/planner.py"], "outcome": "completed"},
+    {"index": 2, "action": "verify", "label": "functional tests and constraint probes", "outcome": "completed"}
+  ]
+}
+

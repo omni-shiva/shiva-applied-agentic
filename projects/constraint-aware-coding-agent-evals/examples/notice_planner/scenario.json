@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "scenario_id": "notice-planner-001",
+  "title": "Plan synthetic notices by resolved delivery channel",
+  "language": "python",
+  "allowed_paths": [
+    "notice_planner/planner.py"
+  ],
+  "runs": [
+    "reference_agent",
+    "comparison_agent"
+  ],
+  "reference_run": "reference_agent",
+  "synthetic": true
+}
+

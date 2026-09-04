@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "scenario_id": "notice-planner-001",
+  "evidence": {
+    "consume-input-once": {
+      "artifact": "notice_planner/planner.py",
+      "location": "BatchPlanner.plan",
+      "reference_claim": "The supplied iterable is traversed by one forward loop.",
+      "probe": "single_iteration"
+    },
+    "preserve-rejected-identity": {
+      "artifact": "notice_planner/planner.py",
+      "location": "rejected.append(notice)",
+      "reference_claim": "The original rejected object is appended directly.",
+      "probe": "rejected_identity"
+    },
+    "do-not-mutate-inputs": {
+      "artifact": "notice_planner/planner.py",
+      "location": "BatchPlanner.plan",
+      "reference_claim": "Resolved values remain local and input notices are unchanged.",
+      "probe": "no_input_mutation"
+    },
+    "snapshot-clock-once": {
+      "artifact": "notice_planner/planner.py",
+      "location": "now = self._clock()",
+      "reference_claim": "One time snapshot is shared by every classification.",
+      "probe": "single_clock_snapshot"
+    },
+    "delegate-channel-resolution": {
+      "artifact": "notice_planner/planner.py",
+      "location": "self._policy.resolve(notice.channel)",
+      "reference_claim": "Every channel decision is delegated to the injected policy.",
+      "probe": "policy_delegation"
+    },
+    "preserve-rejection-order": {
+      "artifact": "notice_planner/planner.py",
+      "location": "rejected.append(notice)",
+      "reference_claim": "Rejections are appended during the original forward traversal.",
+      "probe": "stable_rejection_order"
+    }
+  }
+}
+

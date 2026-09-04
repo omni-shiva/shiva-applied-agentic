@@ -19,8 +19,9 @@ not as production ownership.
 |---|---|---|---|
 | [Data Platform Reliability Agent](projects/data-platform-reliability-agent/) | Investigates synthetic pipeline incidents with tenant-safe tools, contract inspection and runbook retrieval. It proposes remediation but never executes it. | FastAPI, Pydantic, Qdrant, tenant-scoped SQL, citations, approval controls, 25 deterministic offline regression cases | Code and evaluation complete |
 | [Synthetic Data and Print Recommendation Agent](projects/synthetic-data-print-recommendation-agent/) | Detects training-data scarcity, generates controlled document variations, engineers document features and recommends print settings with confidence and a review-required flag. | Scarcity analysis, 1x/10x/100x synthetic generation, separately versioned synthetic holdout with disjoint IDs, structured API responses, bias and saturation checks | Code and evaluation complete |
+| [Constraint-Aware Coding Agent Evaluation Lab](projects/constraint-aware-coding-agent-evals/) | Separates functional correctness from runtime constraint compliance with isolated adversarial probes and reproducible evidence. | Dual-axis grading, 6 behavior probes, unittest + scenario validation, SHA-256 manifest | Code and evaluation complete |
 
-**Current project count: 2.**
+**Current project count: 3.**
 
 ## Portfolio structure
 
@@ -38,13 +39,19 @@ projects/
     evals/     Separately versioned synthetic holdout documents
     tests/     Generation, recommendation, safety and evaluation tests
     docs/      Architecture, evaluation and interview guidance
+  constraint-aware-coding-agent-evals/
+    src/       Evaluation engine and CLI
+    examples/  Fully synthetic notice-planner case study
+    tests/     Engine and release-control tests
+    docs/      Design and reproduction notes
+    tools/     Manifest and public-release checks
 .github/workflows/
-  ci.yml       Runs lint and tests independently for both projects
+  ci.yml       Runs lint and tests independently for each project
 ```
 
-There is deliberately no single universal agent or shared domain skill. Pipeline diagnosis and
-print recommendation have different inputs, tools, safety rules and evaluation criteria, so each
-project owns its complete implementation.
+There is deliberately no single universal agent or shared domain skill. Pipeline diagnosis,
+print recommendation and constraint-aware evaluation have different inputs, tools, safety
+rules and evaluation criteria, so each project owns its complete implementation.
 
 ## Run a project
 
@@ -59,6 +66,16 @@ pytest
 ```
 
 Use the same process inside `projects/synthetic-data-print-recommendation-agent`.
+
+The evaluation lab uses the standard library and unittest:
+
+```bash
+cd projects/constraint-aware-coding-agent-evals
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
+python -m unittest discover -s tests -v
+```
 
 ## Engineering principles
 
