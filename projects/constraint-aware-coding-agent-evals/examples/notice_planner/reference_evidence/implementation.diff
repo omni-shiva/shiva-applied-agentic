@@ -1,0 +1,22 @@
+--- a/notice_planner/planner.py
++++ b/notice_planner/planner.py
+@@ -13,4 +13,18 @@
+         self._clock = clock
+ 
+     def plan(self, notices: Iterable[Notice]) -> Plan:
+-        raise NotImplementedError("Implement the synthetic notice planner")
++        now = self._clock()
++        batches: dict[str, list[Notice]] = {}
++        rejected: list[Notice] = []
++
++        for notice in notices:
++            resolved_channel = self._policy.resolve(notice.channel)
++            is_future = notice.scheduled_at is not None and notice.scheduled_at > now
++
++            if resolved_channel is None or is_future:
++                rejected.append(notice)
++                continue
++
++            batches.setdefault(resolved_channel, []).append(notice)
++
++        return Plan(batches=batches, rejected=rejected)

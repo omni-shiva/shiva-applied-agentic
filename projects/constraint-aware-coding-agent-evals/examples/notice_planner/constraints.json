@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "scenario_id": "notice-planner-001",
+  "constraints": [
+    {
+      "id": "consume-input-once",
+      "text": "Consume the supplied notices iterable through exactly one forward iteration while deriving both batches and rejections.",
+      "evidence_mode": "runtime_probe",
+      "probe": "single_iteration",
+      "target_component": "BatchPlanner.plan",
+      "property_checked": "iteration_cardinality",
+      "failure_family": "input_protocol",
+      "covered_by_functional_tests": false
+    },
+    {
+      "id": "preserve-rejected-identity",
+      "text": "Preserve the identity of every rejected Notice; do not copy or reconstruct it.",
+      "evidence_mode": "runtime_probe",
+      "probe": "rejected_identity",
+      "target_component": "Plan.rejected",
+      "property_checked": "object_identity",
+      "failure_family": "identity_ownership",
+      "covered_by_functional_tests": false
+    },
+    {
+      "id": "do-not-mutate-inputs",
+      "text": "Do not mutate any input notice, including its nested metadata dictionary.",
+      "evidence_mode": "runtime_probe",
+      "probe": "no_input_mutation",
+      "target_component": "Notice inputs",
+      "property_checked": "mutation_boundary",
+      "failure_family": "state_integrity",
+      "covered_by_functional_tests": false
+    },
+    {
+      "id": "snapshot-clock-once",
+      "text": "Call the injected clock exactly once per plan invocation and classify every notice against that same snapshot.",
+      "evidence_mode": "runtime_probe",
+      "probe": "single_clock_snapshot",
+      "target_component": "BatchPlanner.plan",
+      "property_checked": "temporal_snapshot",
+      "failure_family": "temporal_consistency",
+      "covered_by_functional_tests": false
+    },
+    {
+      "id": "delegate-channel-resolution",
+      "text": "Route every channel alias and support decision through ChannelPolicy.resolve; do not embed a local support or alias table.",
+      "evidence_mode": "runtime_probe",
+      "probe": "policy_delegation",
+      "target_component": "channel classification",
+      "property_checked": "dependency_delegation",
+      "failure_family": "policy_boundary",
+      "covered_by_functional_tests": false
+    },
+    {
+      "id": "preserve-rejection-order",
+      "text": "Preserve the relative input order of rejected notices across all rejection reasons.",
+      "evidence_mode": "runtime_probe",
+      "probe": "stable_rejection_order",
+      "target_component": "Plan.rejected",
+      "property_checked": "stable_ordering",
+      "failure_family": "ordering",
+      "covered_by_functional_tests": false
+    }
+  ]
+}
+

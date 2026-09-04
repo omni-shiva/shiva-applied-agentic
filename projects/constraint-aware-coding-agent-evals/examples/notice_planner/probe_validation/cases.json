@@ -1,0 +1,151 @@
+{
+  "schema_version": 2,
+  "cases": [
+    {
+      "constraint_id": "consume-input-once",
+      "accepted_candidates": [
+        {
+          "path": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/functionally_incomplete.py",
+          "functional_tests_expected": false
+        }
+      ],
+      "adversarial_candidates": [
+        {
+          "path": "probe_validation/candidates/iterate_twice.py",
+          "functional_tests_expected": true
+        }
+      ]
+    },
+    {
+      "constraint_id": "preserve-rejected-identity",
+      "accepted_candidates": [
+        {
+          "path": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/functionally_incomplete.py",
+          "functional_tests_expected": false
+        },
+        {
+          "path": "probe_validation/candidates/duplicate_original_rejections.py",
+          "functional_tests_expected": false
+        }
+      ],
+      "adversarial_candidates": [
+        {
+          "path": "probe_validation/candidates/copy_rejections.py",
+          "functional_tests_expected": true
+        }
+      ]
+    },
+    {
+      "constraint_id": "do-not-mutate-inputs",
+      "accepted_candidates": [
+        {
+          "path": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+          "functional_tests_expected": true
+        }
+      ],
+      "adversarial_candidates": [
+        {
+          "path": "probe_validation/candidates/mutate_inputs.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/mutate_then_restore.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/metadata_mutate_then_restore.py",
+          "functional_tests_expected": true
+        }
+      ]
+    },
+    {
+      "constraint_id": "snapshot-clock-once",
+      "accepted_candidates": [
+        {
+          "path": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/equivalent_clock_comparison.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/clock_arithmetic.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/clock_timestamp.py",
+          "functional_tests_expected": true
+        }
+      ],
+      "adversarial_candidates": [
+        {
+          "path": "probe_validation/candidates/clock_per_notice.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/ignore_clock_value.py",
+          "functional_tests_expected": true
+        }
+      ]
+    },
+    {
+      "constraint_id": "delegate-channel-resolution",
+      "accepted_candidates": [
+        {
+          "path": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/policy_twice.py",
+          "functional_tests_expected": true
+        }
+      ],
+      "adversarial_candidates": [
+        {
+          "path": "probe_validation/candidates/local_policy_table.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/hybrid_policy.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/call_then_ignore_policy.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/partial_local_support.py",
+          "functional_tests_expected": true
+        }
+      ]
+    },
+    {
+      "constraint_id": "preserve-rejection-order",
+      "accepted_candidates": [
+        {
+          "path": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+          "functional_tests_expected": true
+        },
+        {
+          "path": "probe_validation/candidates/functionally_incomplete.py",
+          "functional_tests_expected": false
+        }
+      ],
+      "adversarial_candidates": [
+        {
+          "path": "probe_validation/candidates/reordered_rejections.py",
+          "functional_tests_expected": true
+        }
+      ]
+    }
+  ]
+}

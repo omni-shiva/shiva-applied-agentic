@@ -1,0 +1,358 @@
+{
+  "analysis": {
+    "comparison_compliance_rate": 0.3333333333333333,
+    "compliance_separation": 0.6666666666666667,
+    "correctness_pass_rate": 1.0,
+    "fully_passed_rate": 0.5,
+    "lesson": "Functional correctness alone is insufficient: both runs pass tests, but their independently measured constraint compliance differs.",
+    "reference_compliance_rate": 1.0,
+    "run_count": 2,
+    "scenario_id": "notice-planner-001"
+  },
+  "grades": [
+    {
+      "artifact_summary": {
+        "observable_events": 5,
+        "summary_present": true,
+        "synthetic": true
+      },
+      "changed_paths": [
+        "notice_planner/planner.py"
+      ],
+      "constraint_judgments": [
+        {
+          "constraint_id": "consume-input-once",
+          "evidence": "source iteration count=1",
+          "evidence_mode": "runtime_probe",
+          "passed": true
+        },
+        {
+          "constraint_id": "preserve-rejected-identity",
+          "evidence": "original identities preserved=True; rejected count=2",
+          "evidence_mode": "runtime_probe",
+          "passed": true
+        },
+        {
+          "constraint_id": "do-not-mutate-inputs",
+          "evidence": "object writes=0; nested writes=0; final state restored=True",
+          "evidence_mode": "runtime_probe",
+          "passed": true
+        },
+        {
+          "constraint_id": "snapshot-clock-once",
+          "evidence": "clock calls per invocation=[1, 1]; early rejected=['between']; early delivered=['already-ready']; late rejected=[]; late delivered=['between', 'already-ready']",
+          "evidence_mode": "runtime_probe",
+          "passed": true
+        },
+        {
+          "constraint_id": "delegate-channel-resolution",
+          "evidence": "policy configurations=[{'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['text', 'fax']}, {'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['mail', 'carrier-pigeon']}]",
+          "evidence_mode": "runtime_probe",
+          "passed": true
+        },
+        {
+          "constraint_id": "preserve-rejection-order",
+          "evidence": "rejected ids=['future-1', 'unsupported-1', 'future-2', 'unsupported-2']; relative order preserved=True",
+          "evidence_mode": "runtime_probe",
+          "passed": true
+        }
+      ],
+      "constraint_pass_rate": 1.0,
+      "constraint_passed": 6,
+      "constraint_total": 6,
+      "correctness": {
+        "passed": true,
+        "return_code": 0,
+        "test_count": 3
+      },
+      "fully_passed": true,
+      "run_id": "reference-run-001",
+      "run_label": "Synthetic reference",
+      "scenario_id": "notice-planner-001",
+      "schema_version": 1
+    },
+    {
+      "artifact_summary": {
+        "observable_events": 3,
+        "summary_present": true,
+        "synthetic": true
+      },
+      "changed_paths": [
+        "notice_planner/planner.py"
+      ],
+      "constraint_judgments": [
+        {
+          "constraint_id": "consume-input-once",
+          "evidence": "probe raised RuntimeError: input iterable was consumed more than once",
+          "evidence_mode": "runtime_probe",
+          "passed": false
+        },
+        {
+          "constraint_id": "preserve-rejected-identity",
+          "evidence": "original identities preserved=False; rejected count=2",
+          "evidence_mode": "runtime_probe",
+          "passed": false
+        },
+        {
+          "constraint_id": "do-not-mutate-inputs",
+          "evidence": "object writes=1; nested writes=0; final state restored=False",
+          "evidence_mode": "runtime_probe",
+          "passed": false
+        },
+        {
+          "constraint_id": "snapshot-clock-once",
+          "evidence": "clock calls per invocation=[2, 2]; early rejected=['between']; early delivered=['already-ready']; late rejected=[]; late delivered=['between', 'already-ready']",
+          "evidence_mode": "runtime_probe",
+          "passed": false
+        },
+        {
+          "constraint_id": "delegate-channel-resolution",
+          "evidence": "policy configurations=[{'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['text', 'fax']}, {'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['mail', 'carrier-pigeon']}]",
+          "evidence_mode": "runtime_probe",
+          "passed": true
+        },
+        {
+          "constraint_id": "preserve-rejection-order",
+          "evidence": "rejected ids=['future-1', 'unsupported-1', 'future-2', 'unsupported-2']; relative order preserved=True",
+          "evidence_mode": "runtime_probe",
+          "passed": true
+        }
+      ],
+      "constraint_pass_rate": 0.3333333333333333,
+      "constraint_passed": 2,
+      "constraint_total": 6,
+      "correctness": {
+        "passed": true,
+        "return_code": 0,
+        "test_count": 3
+      },
+      "fully_passed": false,
+      "run_id": "comparison-run-001",
+      "run_label": "Synthetic comparison",
+      "scenario_id": "notice-planner-001",
+      "schema_version": 1
+    }
+  ],
+  "probe_validation": {
+    "accepted_probe_fixtures": 14,
+    "checks_passed": 45,
+    "constraints_checked": 6,
+    "functional_decoupling_fixtures": 2,
+    "functional_expectation_checks": 19,
+    "isolated_adversarial_fixtures": 12,
+    "probe_expectations_passed": 26,
+    "results": [
+      {
+        "accepted_fixtures": [
+          {
+            "candidate": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+            "evidence": "source iteration count=1",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          },
+          {
+            "candidate": "probe_validation/candidates/functionally_incomplete.py",
+            "evidence": "source iteration count=1",
+            "functional_tests_passed": false,
+            "probe_passed": true
+          }
+        ],
+        "adversarial_fixtures": [
+          {
+            "candidate": "probe_validation/candidates/iterate_twice.py",
+            "evidence": "probe raised RuntimeError: input iterable was consumed more than once",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          }
+        ],
+        "constraint_id": "consume-input-once"
+      },
+      {
+        "accepted_fixtures": [
+          {
+            "candidate": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+            "evidence": "original identities preserved=True; rejected count=2",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          },
+          {
+            "candidate": "probe_validation/candidates/functionally_incomplete.py",
+            "evidence": "original identities preserved=True; rejected count=1",
+            "functional_tests_passed": false,
+            "probe_passed": true
+          },
+          {
+            "candidate": "probe_validation/candidates/duplicate_original_rejections.py",
+            "evidence": "original identities preserved=True; rejected count=4",
+            "functional_tests_passed": false,
+            "probe_passed": true
+          }
+        ],
+        "adversarial_fixtures": [
+          {
+            "candidate": "probe_validation/candidates/copy_rejections.py",
+            "evidence": "original identities preserved=False; rejected count=2",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          }
+        ],
+        "constraint_id": "preserve-rejected-identity"
+      },
+      {
+        "accepted_fixtures": [
+          {
+            "candidate": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+            "evidence": "object writes=0; nested writes=0; final state restored=True",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          }
+        ],
+        "adversarial_fixtures": [
+          {
+            "candidate": "probe_validation/candidates/mutate_inputs.py",
+            "evidence": "object writes=1; nested writes=0; final state restored=False",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          },
+          {
+            "candidate": "probe_validation/candidates/mutate_then_restore.py",
+            "evidence": "object writes=2; nested writes=0; final state restored=True",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          },
+          {
+            "candidate": "probe_validation/candidates/metadata_mutate_then_restore.py",
+            "evidence": "object writes=0; nested writes=2; final state restored=True",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          }
+        ],
+        "constraint_id": "do-not-mutate-inputs"
+      },
+      {
+        "accepted_fixtures": [
+          {
+            "candidate": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+            "evidence": "clock calls per invocation=[1, 1]; early rejected=['between']; early delivered=['already-ready']; late rejected=[]; late delivered=['between', 'already-ready']",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          },
+          {
+            "candidate": "probe_validation/candidates/equivalent_clock_comparison.py",
+            "evidence": "clock calls per invocation=[1, 1]; early rejected=['between']; early delivered=['already-ready']; late rejected=[]; late delivered=['between', 'already-ready']",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          },
+          {
+            "candidate": "probe_validation/candidates/clock_arithmetic.py",
+            "evidence": "clock calls per invocation=[1, 1]; early rejected=['between']; early delivered=['already-ready']; late rejected=[]; late delivered=['between', 'already-ready']",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          },
+          {
+            "candidate": "probe_validation/candidates/clock_timestamp.py",
+            "evidence": "clock calls per invocation=[1, 1]; early rejected=['between']; early delivered=['already-ready']; late rejected=[]; late delivered=['between', 'already-ready']",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          }
+        ],
+        "adversarial_fixtures": [
+          {
+            "candidate": "probe_validation/candidates/clock_per_notice.py",
+            "evidence": "clock calls per invocation=[2, 2]; early rejected=['between']; early delivered=['already-ready']; late rejected=[]; late delivered=['between', 'already-ready']",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          },
+          {
+            "candidate": "probe_validation/candidates/ignore_clock_value.py",
+            "evidence": "clock calls per invocation=[1, 1]; early rejected=['between', 'already-ready']; early delivered=[]; late rejected=['between', 'already-ready']; late delivered=[]",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          }
+        ],
+        "constraint_id": "snapshot-clock-once"
+      },
+      {
+        "accepted_fixtures": [
+          {
+            "candidate": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+            "evidence": "policy configurations=[{'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['text', 'fax']}, {'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['mail', 'carrier-pigeon']}]",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          },
+          {
+            "candidate": "probe_validation/candidates/policy_twice.py",
+            "evidence": "policy configurations=[{'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['text', 'fax']}, {'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['mail', 'carrier-pigeon']}]",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          }
+        ],
+        "adversarial_fixtures": [
+          {
+            "candidate": "probe_validation/candidates/local_policy_table.py",
+            "evidence": "policy configurations=[{'inputs_observed': False, 'batches_match': False, 'rejected_match': False, 'rejected_ids': ['carrier-pigeon', 'fax']}, {'inputs_observed': False, 'batches_match': False, 'rejected_match': False, 'rejected_ids': ['carrier-pigeon', 'fax']}]",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          },
+          {
+            "candidate": "probe_validation/candidates/hybrid_policy.py",
+            "evidence": "policy configurations=[{'inputs_observed': False, 'batches_match': False, 'rejected_match': False, 'rejected_ids': ['fax']}, {'inputs_observed': False, 'batches_match': False, 'rejected_match': False, 'rejected_ids': ['carrier-pigeon']}]",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          },
+          {
+            "candidate": "probe_validation/candidates/call_then_ignore_policy.py",
+            "evidence": "policy configurations=[{'inputs_observed': True, 'batches_match': False, 'rejected_match': False, 'rejected_ids': ['carrier-pigeon', 'fax']}, {'inputs_observed': True, 'batches_match': False, 'rejected_match': False, 'rejected_ids': ['carrier-pigeon', 'fax']}]",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          },
+          {
+            "candidate": "probe_validation/candidates/partial_local_support.py",
+            "evidence": "policy configurations=[{'inputs_observed': True, 'batches_match': True, 'rejected_match': True, 'rejected_ids': ['text', 'fax']}, {'inputs_observed': True, 'batches_match': False, 'rejected_match': False, 'rejected_ids': ['mail', 'carrier-pigeon', 'fax']}]",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          }
+        ],
+        "constraint_id": "delegate-channel-resolution"
+      },
+      {
+        "accepted_fixtures": [
+          {
+            "candidate": "candidate_runs/reference_agent/candidate/notice_planner/planner.py",
+            "evidence": "rejected ids=['future-1', 'unsupported-1', 'future-2', 'unsupported-2']; relative order preserved=True",
+            "functional_tests_passed": true,
+            "probe_passed": true
+          },
+          {
+            "candidate": "probe_validation/candidates/functionally_incomplete.py",
+            "evidence": "rejected ids=['future-1']; relative order preserved=True",
+            "functional_tests_passed": false,
+            "probe_passed": true
+          }
+        ],
+        "adversarial_fixtures": [
+          {
+            "candidate": "probe_validation/candidates/reordered_rejections.py",
+            "evidence": "rejected ids=['future-1', 'future-2', 'unsupported-1', 'unsupported-2']; relative order preserved=False",
+            "failure_isolated": true,
+            "functional_tests_passed": true,
+            "target_rejected": true
+          }
+        ],
+        "constraint_id": "preserve-rejection-order"
+      }
+    ],
+    "status": "PASS"
+  }
+}
